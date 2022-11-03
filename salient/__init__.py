@@ -10,7 +10,7 @@ from __future__ import annotations
 import sys
 import warnings
 
-from salient import circle
+from salient import base
 
 try:
     from salient.version import __version__
@@ -28,7 +28,7 @@ __all__ = [  # noqa: F405
     "__version__",
     "lib",
     "ffi",
-    "circle"
+    "base"
     # --- From salientpy.py ---
     # --- From constants.py ---
     # --- End constants.py ---

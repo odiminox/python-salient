@@ -1,0 +1,8 @@
+include *.py *.cfg *.txt *.rst *.toml
+
+recursive-include salient *.py *.c *.h
+
+recursive-include salient/src *.glsl* *.c *.h
+include salient/*.txt salient/*.md tests/data/*.pkl
+
+exclude Salient/*/SDL2.dll

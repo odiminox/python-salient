@@ -84,6 +84,9 @@ ipython_config.py
 # pyenv
 .python-version
 
+# Sphinx documentation
+docs/_build/
+
 # pipenv
 #   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
 #   However, in case of collaboration, if having platform-specific dependencies or dependencies
@@ -127,3 +130,23 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Custom
+Release/
+salient/_*.c
+salient/_*.pyd
+.benchmarks
+dependencies/SDL2*
+salient/x86
+salient/x64
+salient/SDL2.framework
+deb_dist/
+*.tar.gz
+salient/version.py
+.pybuild/
+.debhelper/
+debian/files
+debian/python*
+.pytest_cache
+Thumbs.db
+.mypy_cache/

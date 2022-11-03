@@ -17,6 +17,8 @@
     "python.formatting.provider": "black",
     "files.associations": {
         "*.spec": "python",
+        "portability.h": "c",
+        "config.h": "c"
     },
     "cSpell.words": [
         "ADDA",

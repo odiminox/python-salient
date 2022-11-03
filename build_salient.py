@@ -149,16 +149,16 @@ library_dirs: List[str] = [*build_sdl.library_dirs]
 define_macros: List[Tuple[str, Any]] = [("Py_LIMITED_API", Py_LIMITED_API)]
 
 sources += walk_sources("salient/")
-sources += walk_sources("libsalient/src/libsalient/")
-# sources += ["libsalient/src/vendor/stb.c"]
-# sources += ["libsalient/src/vendor/glad.c"]
-# sources += ["libsalient/src/vendor/lodepng.c"]
-# sources += ["libsalient/src/vendor/utf8proc/utf8proc.c"]
-# sources += glob.glob("libsalient/src/vendor/zlib/*.c")
+sources += walk_sources("libsalient/src/salient/")
+sources += ["libsalient/src/vendor/stb.c"]
+sources += ["libsalient/src/vendor/glad.c"]
+sources += ["libsalient/src/vendor/lodepng.c"]
+sources += ["libsalient/src/vendor/utf8proc/utf8proc.c"]
+sources += glob.glob("libsalient/src/vendor/zlib/*.c")
 
 if sys.platform == "win32":
     libraries += ["User32"]
-    define_macros.append(("SALIENTLIB_API", ""))
+    define_macros.append(("SALIENT_API", ""))
     define_macros.append(("_CRT_SECURE_NO_WARNINGS", None))
 
 # if sys.platform in ["win32", "darwin"]:
@@ -320,8 +320,8 @@ def generate_enums(prefix: str) -> Iterator[str]:
 
 def write_library_constants() -> None:
     """Write libsalient constants into the salient.constants module."""
-    import salient.color
-    from salient._libsalient import ffi, lib
+    # import salient.color
+    # from salient._libsalient import ffi, lib
 
     with open("salient/constants.py", "w", encoding="utf-8") as f:
         all_names = []
@@ -347,18 +347,18 @@ def write_library_constants() -> None:
                 f.write(f"KEY_{name[6:]} = {value!r}\n")
                 all_names.append(f"KEY_{name[6:]}")
 
-        f.write("\n# --- colors ---\n")
-        for name in dir(lib):
-            if name[:5] != "SALIENT_":
-                continue
-            value = getattr(lib, name)
-            if not isinstance(value, ffi.CData):
-                continue
-            if ffi.typeof(value) != ffi.typeof("SALIENT_color_t"):
-                continue
-            color = salient.color.Color._new_from_cdata(value)
-            f.write(f"{name[5:]} = {color!r}\n")
-            all_names.append(name[5:])
+        # f.write("\n# --- colors ---\n")
+        # for name in dir(lib):
+        #    if name[:5] != "SALIENT_":
+        #        continue
+        #    value = getattr(lib, name)
+        #    if not isinstance(value, ffi.CData):
+        #        continue
+        #    if ffi.typeof(value) != ffi.typeof("SALIENT_color_t"):
+        #        continue
+        #    color = salient.color.Color._new_from_cdata(value)
+        #    f.write(f"{name[5:]} = {color!r}\n")
+        #    all_names.append(name[5:])
 
         all_names_merged = ",\n    ".join(f'"{name}"' for name in all_names)
         f.write(f"\n__all__ = [\n    {all_names_merged},\n]\n")

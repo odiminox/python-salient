@@ -1,0 +1,3 @@
+[submodule "libsalient"]
+	path = libsalient
+	url = https://github.com/odiminox/salient

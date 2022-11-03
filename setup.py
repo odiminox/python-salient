@@ -99,7 +99,7 @@ setup(
     name="salient",
     version=get_version(),
     author="Simon Jordan",
-    author_email="salient.contactgmail.com",
+    author_email="salient.contact@gmail.com",
     description="The official Python port of Salient.",
     long_description=(SETUP_DIR / "README.rst").read_text(encoding="utf-8"),
     url="https://github.com/Odiminox/python-salient",

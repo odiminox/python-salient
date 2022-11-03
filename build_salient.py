@@ -134,10 +134,10 @@ includes = parse_includes()
 module_name = "salient._libsalient"
 include_dirs: List[str] = [
     ".",
-    # "libsalient/src/vendor/",
-    # "libsalient/src/vendor/utf8proc",
-    # "libsalient/src/vendor/zlib/",
-    # *build_sdl.include_dirs,
+    "libsalient/src/vendor/",
+    "libsalient/src/vendor/utf8proc",
+    "libsalient/src/vendor/zlib/",
+    *build_sdl.include_dirs,
 ]
 
 extra_compile_args: List[str] = [*build_sdl.extra_compile_args]
@@ -321,7 +321,7 @@ def generate_enums(prefix: str) -> Iterator[str]:
 def write_library_constants() -> None:
     """Write libsalient constants into the salient.constants module."""
     # import salient.color
-    # from salient._libsalient import ffi, lib
+    from salient._libsalient import ffi, lib
 
     with open("salient/constants.py", "w", encoding="utf-8") as f:
         all_names = []

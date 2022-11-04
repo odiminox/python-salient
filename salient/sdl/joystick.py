@@ -9,9 +9,9 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 
 from typing_extensions import Final, Literal
 
-import tcod.sdl.sys
-from tcod.loader import ffi, lib
-from tcod.sdl import _check, _check_p
+import salient.sdl.sys
+from salient.loader import ffi, lib
+from salient.sdl import _check, _check_p
 
 _HAT_DIRECTIONS: Dict[int, Tuple[Literal[-1, 0, 1], Literal[-1, 0, 1]]] = {
     lib.SDL_HAT_CENTERED or 0: (0, 0),
@@ -144,7 +144,7 @@ class Joystick:
 
     @classmethod
     def _open(cls, device_index: int) -> Joystick:
-        tcod.sdl.sys.init(tcod.sdl.sys.Subsystem.JOYSTICK)
+        salient.sdl.sys.init(salient.sdl.sys.Subsystem.JOYSTICK)
         p = _check_p(ffi.gc(lib.SDL_JoystickOpen(device_index), lib.SDL_JoystickClose))
         return cls(p)
 
@@ -163,7 +163,7 @@ class Joystick:
     def _get_guid(self) -> str:
         guid_str = ffi.new("char[33]")
         lib.SDL_JoystickGetGUIDString(lib.SDL_JoystickGetGUID(self.sdl_joystick_p), guid_str, len(guid_str))
-        return str(tcod.ffi.string(guid_str), encoding="utf-8")
+        return str(ffi.string(guid_str), encoding="utf-8")
 
     def get_current_power(self) -> Power:
         """Return the power level/state of this joystick.  See :any:`Power`."""
@@ -353,7 +353,7 @@ class GameController:
 
 def init() -> None:
     """Initialize SDL's joystick and game controller subsystems."""
-    tcod.sdl.sys.init(tcod.sdl.sys.Subsystem.JOYSTICK | tcod.sdl.sys.Subsystem.GAMECONTROLLER)
+    salient.sdl.sys.init(salient.sdl.sys.Subsystem.JOYSTICK | salient.sdl.sys.Subsystem.GAMECONTROLLER)
 
 
 def _get_number() -> int:

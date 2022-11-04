@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 from typing import Any, Callable, Tuple, TypeVar
 
-from tcod.loader import ffi, lib
+from salient.loader import ffi, lib
 
 T = TypeVar("T")
 

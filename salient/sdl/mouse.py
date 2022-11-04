@@ -14,10 +14,10 @@ from typing import Any, Optional, Tuple, Union
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
 
-import tcod.event
-import tcod.sdl.video
-from tcod.loader import ffi, lib
-from tcod.sdl import _check, _check_p
+import salient.event
+import salient.sdl.video
+from salient.loader import ffi, lib
+from salient.sdl import _check, _check_p
 
 
 class Cursor:
@@ -103,7 +103,7 @@ def new_color_cursor(pixels: ArrayLike, hot_xy: Tuple[int, int]) -> Cursor:
     .. seealso::
         :any:`set_cursor`
     """
-    surface = tcod.sdl.video._TempSurface(pixels)
+    surface = salient.sdl.video._TempSurface(pixels)
     return Cursor._claim(lib.SDL_CreateColorCursor(surface.p, *hot_xy))
 
 
@@ -149,18 +149,18 @@ def capture(enable: bool) -> None:
 
         # Make mouse button presses capture the mouse until all buttons are released.
         # This means that dragging the mouse outside of the window will not cause an interruption in motion events.
-        for event in tcod.event.get():
+        for event in salient.event.get():
             match event:
-                case tcod.event.MouseButtonDown(button=button, pixel=pixel):  # Clicking the window captures the mouse.
-                    tcod.sdl.mouse.capture(True)
-                case tcod.event.MouseButtonUp():  # When all buttons are released then the mouse is released.
-                    if tcod.event.mouse.get_global_state().state == 0:
-                        tcod.sdl.mouse.capture(False)
-                case tcod.event.MouseMotion(pixel=pixel, pixel_motion=pixel_motion, state=state):
+                case salient.event.MouseButtonDown(button=button, pixel=pixel):  # Clicking the window captures the mouse.
+                    salient.sdl.mouse.capture(True)
+                case salient.event.MouseButtonUp():  # When all buttons are released then the mouse is released.
+                    if salient.event.mouse.get_global_state().state == 0:
+                        salient.sdl.mouse.capture(False)
+                case salient.event.MouseMotion(pixel=pixel, pixel_motion=pixel_motion, state=state):
                     pass  # While a button is held this event is still captured outside of the window.
 
     .. seealso::
-        :any:`tcod.sdl.mouse.set_relative_mode`
+        :any:`salient.sdl.mouse.set_relative_mode`
         https://wiki.libsdl.org/SDL_CaptureMouse
     """
     _check(lib.SDL_CaptureMouse(enable))
@@ -170,7 +170,7 @@ def set_relative_mode(enable: bool) -> None:
     """Enable or disable relative mouse mode which will lock and hide the mouse and only report mouse motion.
 
     .. seealso::
-        :any:`tcod.sdl.mouse.capture`
+        :any:`salient.sdl.mouse.capture`
         https://wiki.libsdl.org/SDL_SetRelativeMouseMode
     """
     _check(lib.SDL_SetRelativeMouseMode(enable))
@@ -181,7 +181,7 @@ def get_relative_mode() -> bool:
     return bool(lib.SDL_GetRelativeMouseMode())
 
 
-def get_global_state() -> tcod.event.MouseState:
+def get_global_state() -> salient.event.MouseState:
     """Return the mouse state relative to the desktop.
 
     .. seealso::
@@ -189,10 +189,10 @@ def get_global_state() -> tcod.event.MouseState:
     """
     xy = ffi.new("int[2]")
     state = lib.SDL_GetGlobalMouseState(xy, xy + 1)
-    return tcod.event.MouseState(pixel=(xy[0], xy[1]), state=state)
+    return salient.event.MouseState(pixel=(xy[0], xy[1]), state=state)
 
 
-def get_relative_state() -> tcod.event.MouseState:
+def get_relative_state() -> salient.event.MouseState:
     """Return the mouse state, the coordinates are relative to the last time this function was called.
 
     .. seealso::
@@ -200,10 +200,10 @@ def get_relative_state() -> tcod.event.MouseState:
     """
     xy = ffi.new("int[2]")
     state = lib.SDL_GetRelativeMouseState(xy, xy + 1)
-    return tcod.event.MouseState(pixel=(xy[0], xy[1]), state=state)
+    return salient.event.MouseState(pixel=(xy[0], xy[1]), state=state)
 
 
-def get_state() -> tcod.event.MouseState:
+def get_state() -> salient.event.MouseState:
     """Return the mouse state relative to the window with mouse focus.
 
     .. seealso::
@@ -211,13 +211,13 @@ def get_state() -> tcod.event.MouseState:
     """
     xy = ffi.new("int[2]")
     state = lib.SDL_GetMouseState(xy, xy + 1)
-    return tcod.event.MouseState(pixel=(xy[0], xy[1]), state=state)
+    return salient.event.MouseState(pixel=(xy[0], xy[1]), state=state)
 
 
-def get_focus() -> Optional[tcod.sdl.video.Window]:
+def get_focus() -> Optional[salient.sdl.video.Window]:
     """Return the window which currently has mouse focus."""
     window_p = lib.SDL_GetMouseFocus()
-    return tcod.sdl.video.Window(window_p) if window_p else None
+    return salient.sdl.video.Window(window_p) if window_p else None
 
 
 def warp_global(x: int, y: int) -> None:
@@ -225,6 +225,6 @@ def warp_global(x: int, y: int) -> None:
     _check(lib.SDL_WarpMouseGlobal(x, y))
 
 
-def warp_in_window(window: tcod.sdl.video.Window, x: int, y: int) -> None:
+def warp_in_window(window: salient.sdl.video.Window, x: int, y: int) -> None:
     """Move the mouse cursor to a position within a window."""
     _check(lib.SDL_WarpMouseInWindow(window.p, x, y))

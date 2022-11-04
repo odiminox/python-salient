@@ -1,7 +1,7 @@
 """SDL2 Window and Display handling.
 
 There are two main ways to access the SDL window.
-Either you can use this module to open a window yourself bypassing libtcod's context,
+Either you can use this module to open a window yourself bypassing libsalient's context,
 or you can use :any:`Context.sdl_window` to get the window being controlled by that context (if the context has one.)
 
 .. versionadded:: 13.4
@@ -15,8 +15,8 @@ from typing import Any, Optional, Tuple
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
 
-from tcod.loader import ffi, lib
-from tcod.sdl import _check, _check_p, _required_version, _version_at_least
+from salient.loader import ffi, lib
+from salient.sdl import _check, _check_p, _required_version, _version_at_least
 
 __all__ = (
     "WindowFlags",
@@ -146,7 +146,7 @@ class Window:
         """Get or set the (x, y) position of the window.
 
         This attribute can be set the move the window.
-        The constants tcod.lib.SDL_WINDOWPOS_CENTERED or tcod.lib.SDL_WINDOWPOS_UNDEFINED may be used.
+        The constants salient.lib.SDL_WINDOWPOS_CENTERED or salient.lib.SDL_WINDOWPOS_UNDEFINED may be used.
         """
         xy = ffi.new("int[2]")
         lib.SDL_GetWindowPosition(self.p, xy, xy + 1)
@@ -220,11 +220,11 @@ class Window:
         Example::
 
             # Toggle fullscreen.
-            window: tcod.sdl.video.Window
+            window: salient.sdl.video.Window
             if window.fullscreen:
                 window.fullscreen = False  # Set windowed mode.
             else:
-                window.fullscreen = tcod.sdl.video.WindowFlags.FULLSCREEN_DESKTOP
+                window.fullscreen = salient.sdl.video.WindowFlags.FULLSCREEN_DESKTOP
         """
         return self.flags & (WindowFlags.FULLSCREEN | WindowFlags.FULLSCREEN_DESKTOP)
 
@@ -346,17 +346,17 @@ def new_window(
         x: The left-most position of the window.
         y: The top-most position of the window.
         title: The title text of the new window.  If no option is given then `sys.arg[0]` will be used as the title.
-        flags: The SDL flags to use for this window, such as `tcod.sdl.video.WindowFlags.RESIZABLE`.
+        flags: The SDL flags to use for this window, such as `salient.sdl.video.WindowFlags.RESIZABLE`.
                See :any:`WindowFlags` for more options.
 
     Example::
 
-        import tcod.sdl.video
+        import salient.sdl.video
         # Create a new resizable window with a custom title.
-        window = tcod.sdl.video.new_window(640, 480, title="Title bar text", flags=tcod.sdl.video.WindowFlags.RESIZABLE)
+        window = salient.sdl.video.new_window(640, 480, title="Title bar text", flags=salient.sdl.video.WindowFlags.RESIZABLE)
 
     .. seealso::
-        :func:`tcod.sdl.render.new_renderer`
+        :func:`salient.sdl.render.new_renderer`
     """
     x = x if x is not None else int(lib.SDL_WINDOWPOS_UNDEFINED)
     y = y if y is not None else int(lib.SDL_WINDOWPOS_UNDEFINED)
@@ -383,12 +383,12 @@ def screen_saver_allowed(allow: Optional[bool] = None) -> bool:
 
     Example::
 
-        import tcod.sdl.video
+        import salient.sdl.video
 
-        print(f"Screen saver was allowed: {tcod.sdl.video.screen_saver_allowed()}")
+        print(f"Screen saver was allowed: {salient.sdl.video.screen_saver_allowed()}")
         # Allow the screen saver.
         # Might be okay for some turn-based games which don't use a gamepad.
-        tcod.sdl.video.screen_saver_allowed(True)
+        salient.sdl.video.screen_saver_allowed(True)
     """
     if allow is None:
         pass

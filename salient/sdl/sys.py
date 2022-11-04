@@ -4,8 +4,8 @@ import enum
 import warnings
 from typing import Any, Tuple
 
-from tcod.loader import ffi, lib
-from tcod.sdl import _check, _get_error
+from salient.loader import ffi, lib
+from salient.sdl import _check, _get_error
 
 
 class Subsystem(enum.IntFlag):

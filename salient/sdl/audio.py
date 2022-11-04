@@ -14,9 +14,9 @@ Example::
     import time
 
     import soundfile  # pip install soundfile
-    import tcod.sdl.audio
+    import salient.sdl.audio
 
-    device = tcod.sdl.audio.open()  # Open the default output device.
+    device = salient.sdl.audio.open()  # Open the default output device.
     sound, samplerate = soundfile.read("example_sound.wav", dtype="float32")  # Load an audio sample using SoundFile.
     converted = device.convert(sound, samplerate)  # Convert this sample to the format expected by the device.
     device.queue_audio(converted)  # Play audio syncroniously by appending it to the device buffer.
@@ -30,9 +30,9 @@ Example::
     import time
 
     import soundfile  # pip install soundfile
-    import tcod.sdl.audio
+    import salient.sdl.audio
 
-    mixer = tcod.sdl.audio.BasicMixer(tcod.sdl.audio.open())  # Setup BasicMixer with the default audio output.
+    mixer = salient.sdl.audio.BasicMixer(salient.sdl.audio.open())  # Setup BasicMixer with the default audio output.
     sound, samplerate = soundfile.read("example_sound.wav")  # Load an audio sample using SoundFile.
     sound = mixer.device.convert(sound, samplerate)  # Convert this sample to the format expected by the device.
     channel = mixer.play(sound)  # Start asynchronous playback, audio is mixed on a separate Python thread.
@@ -53,9 +53,9 @@ import numpy as np
 from numpy.typing import ArrayLike, DTypeLike, NDArray
 from typing_extensions import Final, Literal
 
-import tcod.sdl.sys
-from tcod.loader import ffi, lib
-from tcod.sdl import _check, _get_error
+import salient.sdl.sys
+from salient.loader import ffi, lib
+from salient.sdl import _check, _get_error
 
 
 def _get_format(format: DTypeLike) -> int:
@@ -139,7 +139,7 @@ def convert_audio(
 class AudioDevice:
     """An SDL audio device.
 
-    Open new audio devices using :any:`tcod.sdl.audio.open`.
+    Open new audio devices using :any:`salient.sdl.audio.open`.
 
     When you use this object directly the audio passed to :any:`queue_audio` is always played syncroniously.
     For more typical asynchronous audio you should pass an AudioDevice to :any:`BasicMixer`.
@@ -491,7 +491,7 @@ def _sdl_audio_callback(userdata: Any, stream: Any, length: int) -> None:
 
 def _get_devices(capture: bool) -> Iterator[str]:
     """Get audio devices from SDL_GetAudioDeviceName."""
-    with tcod.sdl.sys._ScopeInit(tcod.sdl.sys.Subsystem.AUDIO):
+    with salient.sdl.sys._ScopeInit(salient.sdl.sys.Subsystem.AUDIO):
         device_count = lib.SDL_GetNumAudioDevices(capture)
         for i in range(device_count):
             yield str(ffi.string(lib.SDL_GetAudioDeviceName(i, capture)), encoding="utf-8")
@@ -569,7 +569,7 @@ def open(
         https://wiki.libsdl.org/SDL_OpenAudioDevice
 
     """
-    tcod.sdl.sys.init(tcod.sdl.sys.Subsystem.AUDIO)
+    salient.sdl.sys.init(salient.sdl.sys.Subsystem.AUDIO)
     desired = ffi.new(
         "SDL_AudioSpec*",
         {

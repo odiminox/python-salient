@@ -11,9 +11,9 @@ import numpy as np
 from numpy.typing import NDArray
 from typing_extensions import Final
 
-import tcod.sdl.video
-from tcod.loader import ffi, lib
-from tcod.sdl import _check, _check_p, _required_version
+import salient.sdl.video
+from salient.loader import ffi, lib
+from salient.sdl import _check, _check_p, _required_version
 
 
 class TextureAccess(enum.IntEnum):
@@ -556,9 +556,9 @@ class Renderer:
         assert rects.shape[1] == 4
         rects = np.ascontiguousarray(rects)
         if rects.dtype == np.intc:
-            _check(lib.SDL_RenderFillRects(self.p, tcod.ffi.from_buffer("SDL_Rect*", rects), rects.shape[0]))
+            _check(lib.SDL_RenderFillRects(self.p, salient.ffi.from_buffer("SDL_Rect*", rects), rects.shape[0]))
         elif rects.dtype == np.float32:
-            _check(lib.SDL_RenderFillRectsF(self.p, tcod.ffi.from_buffer("SDL_FRect*", rects), rects.shape[0]))
+            _check(lib.SDL_RenderFillRectsF(self.p, salient.ffi.from_buffer("SDL_FRect*", rects), rects.shape[0]))
         else:
             raise TypeError(f"Array must be an np.intc or np.float32 type, got {rects.dtype}.")
 
@@ -571,9 +571,9 @@ class Renderer:
         assert rects.shape[1] == 4
         rects = np.ascontiguousarray(rects)
         if rects.dtype == np.intc:
-            _check(lib.SDL_RenderDrawRects(self.p, tcod.ffi.from_buffer("SDL_Rect*", rects), rects.shape[0]))
+            _check(lib.SDL_RenderDrawRects(self.p, salient.ffi.from_buffer("SDL_Rect*", rects), rects.shape[0]))
         elif rects.dtype == np.float32:
-            _check(lib.SDL_RenderDrawRectsF(self.p, tcod.ffi.from_buffer("SDL_FRect*", rects), rects.shape[0]))
+            _check(lib.SDL_RenderDrawRectsF(self.p, salient.ffi.from_buffer("SDL_FRect*", rects), rects.shape[0]))
         else:
             raise TypeError(f"Array must be an np.intc or np.float32 type, got {rects.dtype}.")
 
@@ -586,9 +586,9 @@ class Renderer:
         assert points.shape[1] == 2
         points = np.ascontiguousarray(points)
         if points.dtype == np.intc:
-            _check(lib.SDL_RenderDrawRects(self.p, tcod.ffi.from_buffer("SDL_Point*", points), points.shape[0]))
+            _check(lib.SDL_RenderDrawRects(self.p, salient.ffi.from_buffer("SDL_Point*", points), points.shape[0]))
         elif points.dtype == np.float32:
-            _check(lib.SDL_RenderDrawRectsF(self.p, tcod.ffi.from_buffer("SDL_FPoint*", points), points.shape[0]))
+            _check(lib.SDL_RenderDrawRectsF(self.p, salient.ffi.from_buffer("SDL_FPoint*", points), points.shape[0]))
         else:
             raise TypeError(f"Array must be an np.intc or np.float32 type, got {points.dtype}.")
 
@@ -601,9 +601,9 @@ class Renderer:
         assert points.shape[1] == 2
         points = np.ascontiguousarray(points)
         if points.dtype == np.intc:
-            _check(lib.SDL_RenderDrawRects(self.p, tcod.ffi.from_buffer("SDL_Point*", points), points.shape[0] - 1))
+            _check(lib.SDL_RenderDrawRects(self.p, salient.ffi.from_buffer("SDL_Point*", points), points.shape[0] - 1))
         elif points.dtype == np.float32:
-            _check(lib.SDL_RenderDrawRectsF(self.p, tcod.ffi.from_buffer("SDL_FPoint*", points), points.shape[0] - 1))
+            _check(lib.SDL_RenderDrawRectsF(self.p, salient.ffi.from_buffer("SDL_FPoint*", points), points.shape[0] - 1))
         else:
             raise TypeError(f"Array must be an np.intc or np.float32 type, got {points.dtype}.")
 
@@ -658,7 +658,7 @@ class Renderer:
 
 
 def new_renderer(
-    window: tcod.sdl.video.Window,
+    window: salient.sdl.video.Window,
     *,
     driver: Optional[int] = None,
     software: bool = False,
@@ -677,12 +677,12 @@ def new_renderer(
     Example::
 
         # Start by creating a window.
-        sdl_window = tcod.sdl.video.new_window(640, 480)
+        sdl_window = salient.sdl.video.new_window(640, 480)
         # Create a renderer with target texture support.
-        sdl_renderer = tcod.sdl.render.new_renderer(sdl_window, target_textures=True)
+        sdl_renderer = salient.sdl.render.new_renderer(sdl_window, target_textures=True)
 
     .. seealso::
-        :func:`tcod.sdl.video.new_window`
+        :func:`salient.sdl.video.new_window`
     """
     driver = driver if driver is not None else -1
     flags = 0

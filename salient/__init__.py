@@ -11,6 +11,8 @@ import sys
 import warnings
 
 from salient import base
+from salient.constants import *
+from salient.loader import __sdl_version__, ffi, lib
 
 try:
     from salient.version import __version__

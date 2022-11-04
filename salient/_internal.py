@@ -4,13 +4,7 @@ from __future__ import annotations
 
 import functools
 import warnings
-from typing import Any, AnyStr, Callable, TypeVar, cast
-
-import numpy as np
-from numpy.typing import NDArray
-from typing_extensions import Literal, NoReturn
-
-from salient.loader import ffi, lib
+from typing import Any, Callable, TypeVar, cast
 
 FuncType = Callable[..., Any]
 F = TypeVar("F", bound=FuncType)

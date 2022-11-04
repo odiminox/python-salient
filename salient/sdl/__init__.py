@@ -63,7 +63,7 @@ def _version_at_least(required: Tuple[int, int, int]) -> None:
     if required <= _compiled_version():
         return
     raise RuntimeError(
-        f"This feature requires SDL version {required}, but tcod was compiled with version {_compiled_version()}"
+        f"This feature requires SDL version {required}, but salient was compiled with version {_compiled_version()}"
     )
 
 
@@ -75,7 +75,7 @@ def _required_version(required: Tuple[int, int, int]) -> Callable[[T], T]:
 
     def replacement(*_args: Any, **_kwargs: Any) -> Any:
         raise RuntimeError(
-            f"This feature requires SDL version {required}, but tcod was compiled with version {_compiled_version()}"
+            f"This feature requires SDL version {required}, but salient was compiled with version {_compiled_version()}"
         )
 
     return lambda x: replacement  # type: ignore[return-value]

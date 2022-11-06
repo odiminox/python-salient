@@ -26,7 +26,8 @@
     "libtcod.h": "c",
     "events.hpp": "c",
     "credits.hpp": "c",
-    "libtcod_int.h": "c"
+    "libtcod_int.h": "c",
+    "tileset_truetype.h": "c"
   },
   "cSpell.words": [
     "ADDA",

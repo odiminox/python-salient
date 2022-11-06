@@ -153,19 +153,22 @@ libraries: List[str] = [*build_sdl.libraries]
 library_dirs: List[str] = [*build_sdl.library_dirs]
 define_macros: List[Tuple[str, Any]] = [("Py_LIMITED_API", Py_LIMITED_API)]
 
-sources += walk_sources("libtcod/src/libtcod")
+
 sources += walk_sources("salient/")
 sources += walk_sources("libsalient/src/salient/")
 sources += walk_sources("libsalient/src/salient/base")
-sources += ["libsalient/src/vendor/stb.c"]
-sources += ["libsalient/src/vendor/glad.c"]
-sources += ["libsalient/src/vendor/lodepng.c"]
-sources += ["libsalient/src/vendor/utf8proc/utf8proc.c"]
-sources += glob.glob("libsalient/src/vendor/zlib/*.c")
+sources += walk_sources("libtcod/src/libtcod")
+
+sources += ["libtcod/src/vendor/stb.c"]
+sources += ["libtcod/src/vendor/glad.c"]
+sources += ["libtcod/src/vendor/lodepng.c"]
+sources += ["libtcod/src/vendor/utf8proc/utf8proc.c"]
+sources += glob.glob("libtcod/src/vendor/zlib/*.c")
 
 if sys.platform == "win32":
     libraries += ["User32"]
-    define_macros.append(("SALIENTLIB_API", "TCODLIB_API"))
+    define_macros.append(("SALIENTLIB_API", ""))
+    define_macros.append(("TCODLIB_API", ""))
     define_macros.append(("_CRT_SECURE_NO_WARNINGS", None))
 
 if sys.platform in ["win32", "darwin"]:

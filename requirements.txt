@@ -8,3 +8,4 @@ types-setuptools
 types-tabulate
 typing_extensions
 pcpp==1.30
+tcod>=1.23.0

@@ -10,4 +10,8 @@ def raise_Exception(*args: Any) -> NoReturn:
 
 
 def test_salient_base() -> None:
-    salient.base.Circle.set_pos(5, 6)
+    circle_1 = salient.base.Circle(5, 6, 10)
+    circle_1.set_pos(5, 6)
+    assert circle_1.x == 5
+    assert circle_1.y == 6
+    assert circle_1.r == 10

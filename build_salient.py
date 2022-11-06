@@ -17,7 +17,7 @@ import build_sdl  # noqa: E402
 
 Py_LIMITED_API = 0x03060000
 
-HEADER_PARSE_PATHS = ("salient/", "libsalient/src/salient/")
+HEADER_PARSE_PATHS = ("libtcod/src/libtcod", "salient/", "libsalient/src/salient/")
 HEADER_PARSE_EXCLUDES = ("gl2_ext_.h", "renderer_gl_internal.h", "event.h")
 
 BITSIZE, LINKAGE = platform.architecture()
@@ -29,7 +29,9 @@ RE_PREPROCESSOR = re.compile(r"(?!#define\s+\w+\s+\d+$)#.*?(?<!\\)$", re.DOTALL 
 RE_INCLUDE = re.compile(r'#include "([^"]*)"')
 RE_TAGS = re.compile(
     r"SALIENTLIB_C?API|SALIENT_PUBLIC|SALIENT_NODISCARD|SALIENT_DEPRECATED_NOMESSAGE|SALIENT_DEPRECATED_ENUM"
-    r"|(SALIENT_DEPRECATED|SALIENTLIB_FORMAT)\([^)]*\)|__restrict"
+    r"|(SALIENT_DEPRECATED|SALIENTLIB_FORMAT)\([^)]*\)"
+    r"|TCODLIB_C?API|TCOD_PUBLIC|TCOD_NODISCARD|TCOD_DEPRECATED_NOMESSAGE|TCOD_DEPRECATED_ENUM"
+    r"|(TCOD_DEPRECATED|TCODLIB_FORMAT)\([^)]*\)|__restrict"
 )
 RE_VAFUNC = re.compile(r"^[^;]*\([^;]*va_list.*\);", re.MULTILINE)
 RE_INLINE = re.compile(r"(^.*?inline.*?\(.*?\))\s*\{.*?\}$", re.DOTALL | re.MULTILINE)
@@ -133,6 +135,7 @@ includes = parse_includes()
 
 module_name = "salient._libsalient"
 include_dirs: List[str] = [
+    "libtcod/src/libtcod",
     ".",
     "libsalient/src/salient/",
     "libsalient/src/salient/base",
@@ -150,6 +153,7 @@ libraries: List[str] = [*build_sdl.libraries]
 library_dirs: List[str] = [*build_sdl.library_dirs]
 define_macros: List[Tuple[str, Any]] = [("Py_LIMITED_API", Py_LIMITED_API)]
 
+sources += walk_sources("libtcod/src/libtcod")
 sources += walk_sources("salient/")
 sources += walk_sources("libsalient/src/salient/")
 sources += walk_sources("libsalient/src/salient/base")
@@ -161,7 +165,7 @@ sources += glob.glob("libsalient/src/vendor/zlib/*.c")
 
 if sys.platform == "win32":
     libraries += ["User32"]
-    define_macros.append(("SALIENTLIB_API", ""))
+    define_macros.append(("SALIENTLIB_API", "TCODLIB_API"))
     define_macros.append(("_CRT_SECURE_NO_WARNINGS", None))
 
 if sys.platform in ["win32", "darwin"]:
@@ -321,7 +325,7 @@ def generate_enums(prefix: str) -> Iterator[str]:
 
 
 def write_library_constants() -> None:
-    """Write libtcod constants into the salient.constants module."""
+    """Write salient constants into the salient.constants module."""
     from salient._libsalient import ffi, lib
 
     with open("salient/constants.py", "w", encoding="utf-8") as f:

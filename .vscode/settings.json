@@ -20,7 +20,13 @@
     "salient.h": "c",
     "version.h": "c",
     "engine.hpp": "c",
-    "delegate.hpp": "c"
+    "delegate.hpp": "c",
+    "point.h": "c",
+    "mouse_types.h": "c",
+    "libtcod.h": "c",
+    "events.hpp": "c",
+    "credits.hpp": "c",
+    "libtcod_int.h": "c"
   },
   "cSpell.words": [
     "ADDA",

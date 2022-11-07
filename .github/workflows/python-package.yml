@@ -115,7 +115,7 @@ jobs:
         run: |
           git submodule update --init --recursive --depth 1
       - name: Build libsalient
-      - run: |
+        run: |
           cmake --build "${{ env.CMAKE_BUILD_DIR }}"
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2

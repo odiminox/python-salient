@@ -13,6 +13,8 @@ defaults:
 
 env:
   git-depth: 0 # Depth to search for tags.
+    # Indicates the location of the vcpkg as a Git submodule of the project repository.
+  VCPKG_ROOT: ${{ github.workspace }}/vcpkg
 
 jobs:
   black:
@@ -112,6 +114,9 @@ jobs:
       - name: Checkout submodules
         run: |
           git submodule update --init --recursive --depth 1
+      - name: Build libsalient
+      - run: |
+          cmake --build "${{ env.CMAKE_BUILD_DIR }}"
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:

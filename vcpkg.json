@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+  "name": "salient",
+  "version": "0.0.0",
+  "dependencies": [
+    "fmt",
+    {
+      "name": "libtcod",
+      "features": ["threads"]
+    },
+    "sdl2"
+  ]
+}
